@@ -3,16 +3,16 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.35.8
-Release: 3%{?dist}
+Version: 6.35.9
+Release: 1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Various
 URL:     https://github.com/xapi-project/xs-opam
 
-Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.8.tar.gz
+Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.9.tar.gz
 
 
-Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.8.tar.gz) = aff7ba062f0924d7b51416d2bd81ba96e3d87106
+Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.9.tar.gz) = 246770690edcd661e57b6014912abeec1110c6a7
 
 
 
@@ -101,6 +101,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Tue Aug 16 2022 Rob Hoes <rob.hoes@citrix.com> - 6.35.9-1
+- Updates to use the same ocaml-format version as master
+
 * Mon Sep 27 2021 Pau Ruiz Safont <pau.safont@citrix.com> - 6.35.8-3
 - Bump package for libev dependency
 
