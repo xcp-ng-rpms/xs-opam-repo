@@ -1,26 +1,24 @@
+%global package_speccommit 9bef574e2401fdc26619d07a2b1a5ecf1af7082d
+%global usver 6.35.10
+%global xsver 1
+%global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
 ## creates the directory and makes it WORLD WRITABLE
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.35.9
-Release: 1%{?dist}
+Version: 6.35.10
+Release: %{?xsrel}%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
-License: Various
+License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and GPL-1.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL with OpenSSL linking exception and MIT and MPL-2.0
 URL:     https://github.com/xapi-project/xs-opam
-
-Source0: https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.9.tar.gz
-
-
-Provides: gitsha(https://repo.citrite.net/ctx-local-contrib/xs-opam/xs-opam-repo-6.35.9.tar.gz) = 246770690edcd661e57b6014912abeec1110c6a7
-
+Source0: xs-opam-repo-6.35.10.tar.gz
 
 
 # To "pin" a package during development, see below the example
 # where qmp is pinned to its master branch. Note that currently
 # you can pin to a repository outside Citrix.
 
-AutoReqProv: no
 BuildRequires: xs-opam-src >= 5.1.0
 
 Requires:      opam >= 2.0.0
@@ -65,7 +63,7 @@ PKG=""
 PKG="$PKG $(ls -1 packages/upstream | grep -v 'ppx_tools.*4.06.0')"
 PKG="$PKG $(ls -1 packages/xs)"
 
-# install into the real opam root to avoid problems with 
+# install into the real opam root to avoid problems with
 # embedded paths.
 export OPAMROOT=%{_opamroot}
 # sandbox is incompatible with the xenctrl package
@@ -101,6 +99,13 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Wed Feb 22 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.35.10-1
+- Re-enabled automatic ocaml dependency generator
+- Include license metadata for all packages
+- xs: update xapi-rrd 1.8.3 (CA-371780)
+- upstream: update metadata from the official repository
+- upstream: update conduit sources to match the expected version, 2.2.2
+
 * Tue Aug 16 2022 Rob Hoes <rob.hoes@citrix.com> - 6.35.9-1
 - Updates to use the same ocaml-format version as master
 
