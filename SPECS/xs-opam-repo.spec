@@ -1,6 +1,6 @@
 %global package_speccommit e05d072ac22425dcfe80e765c548d04b3cf775ca
 %global usver 6.66.0
-%global xsver 1.1.0-ipv6-url.1
+%global xsver 1.1.0.ipv6url.1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
 ## creates the directory and makes it WORLD WRITABLE
@@ -116,7 +116,7 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
-* Thu Jul 07 2023 Benjamin Reis <benjamin.reis@vates.fr> - 6.66.0-1.1.0-ipv6-url.1
+* Thu Jul 07 2023 Benjamin Reis <benjamin.reis@vates.fr> - 6.66.0-1.1.0.ipv6url.1
 - Patch `ocaml-uri` for IPv6 URI parsing
 
 * Thu Mar 16 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.66.0-1.1
