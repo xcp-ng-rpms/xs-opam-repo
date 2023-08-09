@@ -1,5 +1,5 @@
-%global package_speccommit 9bef574e2401fdc26619d07a2b1a5ecf1af7082d
-%global usver 6.35.10
+%global package_speccommit aa1924798413c2b048c729cf5115b1b6fcf5ddac
+%global usver 6.35.11
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -7,12 +7,12 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.35.10
+Version: 6.35.11
 Release: %{?xsrel}%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and GPL-1.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL with OpenSSL linking exception and MIT and MPL-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.35.10.tar.gz
+Source0: xs-opam-repo-6.35.11.tar.gz
 
 
 # To "pin" a package during development, see below the example
@@ -99,6 +99,13 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri May 12 2023 Christian Lindig <christian.lindig@citrix.com> - 6.35.11-1
+- CA-376297: Apply patches in mirage-crypto packages
+- ci: stop using docker containers
+
+* Fri May 12 2023 Christian Lindig <christian.lindig@citrix.com> - 6.35.10-2
+- Bump release and rebuild
+
 * Wed Feb 22 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.35.10-1
 - Re-enabled automatic ocaml dependency generator
 - Include license metadata for all packages
