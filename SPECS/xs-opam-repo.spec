@@ -1,6 +1,6 @@
-%global package_speccommit aa1924798413c2b048c729cf5115b1b6fcf5ddac
+%global package_speccommit 495e25c8fef9920248e0e79e9dc1ce3ccf20095c
 %global usver 6.35.11
-%global xsver 1
+%global xsver 2
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
 ## creates the directory and makes it WORLD WRITABLE
@@ -99,6 +99,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Mon Oct 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.35.11-2
+- Bump release and rebuild
+
 * Fri May 12 2023 Christian Lindig <christian.lindig@citrix.com> - 6.35.11-1
 - CA-376297: Apply patches in mirage-crypto packages
 - ci: stop using docker containers
