@@ -12,7 +12,7 @@
 
 Name: xs-opam-repo
 Version: 6.74.0
-Release: %{?xsrel}.2%{?dist}
+Release: %{?xsrel}.2.0.xen417.1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -126,6 +126,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Feb 16 2024 Thierry Escande <thierry.escande@vates.tech> - 6.74.0-1.2.0.xen417.1
+- Rebuild for Xen 4.17 test build
+
 * Wed Feb 14 2024 Yann Dirson <yann.dirson@vates.tech> - 6.74.0-1.2
 - backport xapi-project/xen-api#5456
 
