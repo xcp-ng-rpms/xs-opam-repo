@@ -1,5 +1,5 @@
-%global package_speccommit 495e25c8fef9920248e0e79e9dc1ce3ccf20095c
-%global usver 6.35.11
+%global package_speccommit 21eaa81016b684ea2a9edee60e08ebe13b6cae6d
+%global usver 6.35.13
 %global xsver 2
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -7,12 +7,12 @@
 %global _opamroot %{_libdir}/opamroot
 
 Name: xs-opam-repo
-Version: 6.35.11
+Version: 6.35.13
 Release: %{?xsrel}%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and GPL-1.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and LGPL with OpenSSL linking exception and MIT and MPL-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.35.11.tar.gz
+Source0: xs-opam-repo-6.35.13.tar.gz
 
 
 # To "pin" a package during development, see below the example
@@ -99,6 +99,22 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Mar 08 2024 Christian Lindig <christian.lindig@cloud.com> - 6.35.13-2
+- Bump release and rebuild
+
+* Tue Mar 05 2024 Christian Lindig <christian.lindig@citrix.com> - 6.35.13-1
+- Patch ocaml-vhd for XSI-1457 backport
+
+* Fri Nov 03 2023 Christian Lindig <christian.lindig@cloud.com> - 6.35.12-3
+- Bump release and rebuild
+
+* Tue Oct 24 2023 Christian Lindig <christian.lindig@cloud.com> - 6.35.12-2
+- Bump release and rebuild
+
+* Tue Oct 17 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.35.12-1
+- xs: update xapi-rrd to 1.8.4
+- xs: update stdext to 4.11.3
+
 * Mon Oct 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.35.11-2
 - Bump release and rebuild
 
