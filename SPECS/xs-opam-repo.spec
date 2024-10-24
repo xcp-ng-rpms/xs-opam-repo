@@ -1,6 +1,6 @@
-%global package_speccommit 21eaa81016b684ea2a9edee60e08ebe13b6cae6d
+%global package_speccommit 04e01bc44ffae4c10a15ef15c583929a8d0d72ae
 %global usver 6.35.13
-%global xsver 2
+%global xsver 4
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
 ## creates the directory and makes it WORLD WRITABLE
@@ -99,6 +99,12 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Thu Aug 29 2024 Christian Lindig <christian.lindig@cloud.com> - 6.35.13-4
+- Bump release and rebuild
+
+* Wed Jun 19 2024 Christian Lindig <christian.lindig@cloud.com> - 6.35.13-3
+- Bump release and rebuild
+
 * Fri Mar 08 2024 Christian Lindig <christian.lindig@cloud.com> - 6.35.13-2
 - Bump release and rebuild
 
