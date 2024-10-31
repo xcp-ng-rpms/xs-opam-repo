@@ -38,6 +38,9 @@ Source0: xs-opam-repo-6.80.0.tar.gz
 # when you want a new build.
 # Source1: https://code.citrite.net/rest/archive/latest/projects/~YOURUSER/repos/ezxenstore/archive?at=master&format=tar.gz&prefix=ezxenstore#/ezxenstore.tar.gz
 
+# backport of fix coming with 6.83
+Patch0: jst-config.patch
+
 BuildRequires: xs-opam-src >= 5.1.0
 
 Requires:      opam >= 2.0.0
@@ -134,6 +137,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Thu Oct 31 2024 Yann Dirson <yann.dirson@vates.tech> - 6.80.0-1.2
+- backport 6.83 jst-config fix, needed for Alma 10
+
 * Fri Aug 09 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.80.0-1.1
 - Rebase on 6.80.0-1
 - *** Upstream changelog ***

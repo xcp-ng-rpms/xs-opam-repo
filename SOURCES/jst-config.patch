@@ -1,0 +1,42 @@
+diff -uNr xs-opam-repo-6.80.0/packages/upstream/jst-config.v0.15.1.orig/files/a5cddd0e657b9fc3f6775da8ebdaa6d25446b649.patch xs-opam-repo-6.80.0/packages/upstream/jst-config.v0.15.1/files/a5cddd0e657b9fc3f6775da8ebdaa6d25446b649.patch
+--- xs-opam-repo-6.80.0/packages/upstream/jst-config.v0.15.1.orig/files/a5cddd0e657b9fc3f6775da8ebdaa6d25446b649.patch	1970-01-01 00:00:00.000000000 +0000
++++ xs-opam-repo-6.80.0/packages/upstream/jst-config.v0.15.1/files/a5cddd0e657b9fc3f6775da8ebdaa6d25446b649.patch	2024-09-23 12:08:15.000000000 +0000
+@@ -0,0 +1,25 @@
++From a5cddd0e657b9fc3f6775da8ebdaa6d25446b649 Mon Sep 17 00:00:00 2001
++From: Alex Fan <alex.fan.q@gmail.com>
++Date: Sat, 7 Jan 2023 23:26:10 +1100
++Subject: [PATCH] fix implicit-function-declaration error
++
++clang-16 (and future gcc) makes implicit-function-declaration an error
++add syscall() declaration by #include <unistd.h>
++
++Signed-off-by: Alex Fan <alex.fan.q@gmail.com>
++---
++ src/thread_id.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/thread_id.h b/src/thread_id.h
++index bb3875c..03ee5d3 100644
++--- a/src/thread_id.h
+++++ b/src/thread_id.h
++@@ -7,6 +7,7 @@
++ #if JSC_THREAD_ID_METHOD == 1
++ 
++ #include <sys/syscall.h>
+++#include <unistd.h>
++ 
++ #define GET_THREAD_ID syscall(SYS_gettid)
++ 
+diff -uNr xs-opam-repo-6.80.0/packages/upstream/jst-config.v0.15.1.orig/opam xs-opam-repo-6.80.0/packages/upstream/jst-config.v0.15.1/opam
+--- xs-opam-repo-6.80.0/packages/upstream/jst-config.v0.15.1.orig/opam	2024-05-22 13:09:10.000000000 +0000
++++ xs-opam-repo-6.80.0/packages/upstream/jst-config.v0.15.1/opam	2024-09-23 12:08:15.000000000 +0000
+@@ -16,6 +16,9 @@
+ doc:
+   "https://ocaml.janestreet.com/ocaml-core/latest/doc/jst-config/index.html"
+ bug-reports: "https://github.com/janestreet/jst-config/issues"
++patches: [
++  "a5cddd0e657b9fc3f6775da8ebdaa6d25446b649.patch"
++]
+ depends: [
+   "ocaml" {>= "4.08.0"}
+   "base" {>= "v0.15" & < "v0.16"}
