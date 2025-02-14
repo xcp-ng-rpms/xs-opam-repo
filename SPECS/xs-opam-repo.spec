@@ -1,5 +1,5 @@
-%global package_speccommit 31c4ffcb2d6c9308e36205ecce293eca3269e265
-%global usver 6.80.0
+%global package_speccommit c672227925c767154adf134e288d8c0eef4d4550
+%global usver 6.86.0
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 ## This has to match the declaration in xs-opam-src, which
@@ -10,14 +10,11 @@
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
 
-%global _version 6.80.0
+%global _version 6.86.0
 
-# Uncomment the following comment, remove a % from the beginning, and fill in
-# VALUE to use an untagged tarball. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
-
-# %%{!?_vextra: %_vextra VALUE}
-
-%global _version_full %{_version}%{?_vextra}
+# When building an untagged version, add the number of commits and hash after
+# the variable _version. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
+%global _version_full %{_version}
 
 Name: xs-opam-repo
 Version: %{_version}
@@ -26,9 +23,9 @@ Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
-License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only WITH OCaml-LGPL-linking-exception and MIT and PSF-2.0
+License: Apache-1.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.80.0.tar.gz
+Source0: xs-opam-repo-6.86.0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -76,7 +73,7 @@ Toolstack components of the Citrix Hypervisor.
 %prep
 %autosetup -p1 -n xs-opam-repo-%{_version_full}
 # XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
-rm -rf packages/xs/dlm.*
+rm -r packages/dlm/dlm.*
 
 %build
 
@@ -86,28 +83,22 @@ rm -rf packages/xs/dlm.*
 source /opt/rh/devtoolset-11/enable
 %endif
 
-PKG=""
-PKG="$PKG $(ls -1 packages/upstream)"
-PKG="$PKG $(ls -1 packages/xs)"
-
 # install into the real opam root to avoid problems with
 # embedded paths.
 export OPAMROOT=%{_opamroot}
-# sandbox is incompatible with rsync, packages modifying /tmp and other issues
-opam init --disable-sandboxing -y local file://${PWD}
+opam init --bare --no-setup -k local xs-opam . -y
 opam switch create ocaml-system
 
-# To pin a package, uncomment the lines below, and adjust the name of the tarball you pinned
-# tar xvf %%{SOURCE1}
-# opam pin add -n ezxenstore/
-# comment out the next line if you use the "opam pin"
+PKG=$(opam exec -- opam list --available --short)
+
 export OPAMFETCH=/bin/false
-opam config exec -- opam install %{?_smp_mflags} -y $PKG
+opam exec -- opam install %{?_smp_mflags} -y $PKG
 
 mkdir -p %{buildroot}/etc/profile.d
 mkdir -p %{buildroot}%{_opamroot}
 echo 'export OPAMROOT=%{_opamroot}' > %{buildroot}/etc/profile.d/opam.sh
 echo 'eval `opam config env`' >> %{buildroot}/etc/profile.d/opam.sh
+echo 'export OCAMLPATH=%{_libdir}/ocaml' >> %{buildroot}/etc/profile.d/opam.sh
 %if 0%{?xenserver} < 9
 echo 'source /opt/rh/devtoolset-11/enable' >> %{buildroot}/etc/profile.d/opam.sh
 %endif
@@ -134,35 +125,69 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Tue Jan 21 2025 Yann Dirson <yann.dirson@vates.tech> - 6.86.0-1.1
+- Update to 6.86.0-1
+- Refresh removal of dlm package (location changed in source tree)
+- Don't pass "-f" to "rm" while removing packages, to better catch upstream changes
+- Fix typo generating /etc/profile.d/opam.sh
+- Reformat changelog to allow diffing with upstream
+- Upstream changelog:
+  * Wed Oct 09 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.86.0-1
+  - Include crowbar library
+  
+  * Tue Oct 08 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.85.0-1
+  - Update Uuidm to 0.9.9
+  - Use upstream folder structure, use opam-directed tools for managing it
+  
+  * Mon Sep 23 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.84.0-1
+  - CA-399172: fix potential crash in Uri.of_string
+  
+  * Fri Jul 26 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.83.0-1
+  - Patch Uri packages to add path_unencoded
+  - jst-config: fix build on Fedora40
+  - Metadata refresh, breaking update of upstream libraries
+  - Remove systemd library
+  
+  * Tue Jul 02 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.81.0-1
+  - Update crc to 2.2.0
+  - Add qcheck and qcheck-alcotest
+  
+  * Wed May 22 2024 Rob Hoes <rob.hoes@cloud.com> - 6.80.0-1
+  - Add psq 0.2.1
+
 * Fri Aug 09 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.80.0-1.1
 - Rebase on 6.80.0-1
 - *** Upstream changelog ***
-- * Wed May 22 2024 Rob Hoes <rob.hoes@cloud.com> - 6.80.0-1
-- - Add psq 0.2.1
-- * Mon May 13 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.79.0-1
-- - ocaml: add 4.14.2 packages
-- - upstream: update non-breaking packages
+  * Wed May 22 2024 Rob Hoes <rob.hoes@cloud.com> - 6.80.0-1
+  - Add psq 0.2.1
+
+  * Mon May 13 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.79.0-1
+  - ocaml: add 4.14.2 packages
+  - upstream: update non-breaking packages
 
 * Tue Jun 18 2024 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.78.0-1.1
 - Rebase on 6.78.0-1
 - *** Upstream changelog ***
-- * Thu Mar 07 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.78.0-1
-- - Add patch for rpclib to accept empty variants
-- - Non-breaking update of upstream dependencies
+  * Thu Mar 07 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.78.0-1
+  - Add patch for rpclib to accept empty variants
+  - Non-breaking update of upstream dependencies
 
 * Wed Apr 10 2024 Benjamin Reis <benjamin.reis@vates.tech> - 6.77.0-1.1
 - Rebase on 6.77.0-1
 - Drop xs-opam-repo-6.74.0-metajson.XCP-ng.patch
 - *** Upstream changelog ***
-- * Wed Jan 31 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.77.0-1
-- - Remove xapi-rd, xapi-inventory and xapi-stext-* packages
-- * Wed Dec 20 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-2
-- - Bump release
-- * Tue Dec 19 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-1
-- - upstream: update ocamlformat to the latest version
-- - update inotify to 2.5.0 and uri to 4.4.0
-- * Fri Nov 17 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.75.0-1
-- - xs: update xapi-rrd to 1.11.0
+  * Wed Jan 31 2024 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.77.0-1
+  - Remove xapi-rd, xapi-inventory and xapi-stext-* packages
+
+  * Wed Dec 20 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-2
+  - Bump release
+
+  * Tue Dec 19 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.76.0-1
+  - upstream: update ocamlformat to the latest version
+  - update inotify to 2.5.0 and uri to 4.4.0
+
+  * Fri Nov 17 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.75.0-1
+  - xs: update xapi-rrd to 1.11.0
 
 * Wed Feb 14 2024 Yann Dirson <yann.dirson@vates.tech> - 6.74.0-1.2
 - backport xapi-project/xen-api#5456
@@ -171,50 +196,61 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 - Update to 6.74.0-1
 - Drop xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch, applied by XS
 - *** Upstream changelog ***
-- * Thu Nov 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.74.0-1
-- - xs: update xapi-stext packages to 4.23.0
-- - licenses: update package licenses
-- * Fri Oct 27 2023 Lin Liu <Lin.Liu01@cloud.com> - 6.73.0-2
-- - Build with gcc for xs9
-- * Wed Sep 27 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.73.0-1
-- - xs: update polly and qmp
-- - upstream: update many packages, there are no breaking changes
+  * Thu Nov 02 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.74.0-1
+  - xs: update xapi-stext packages to 4.23.0
+  - licenses: update package licenses
+
+  * Fri Oct 27 2023 Lin Liu <Lin.Liu01@cloud.com> - 6.73.0-2
+  - Build with gcc for xs9
+
+  * Wed Sep 27 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.73.0-1
+  - xs: update polly and qmp
+  - upstream: update many packages, there are no breaking changes
 
 * Fri Sep 22 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.72.0-1.1
 - Update to 6.72.0-1
 - Rediff xs-opam-repo-6.72.0-fix-ipv6-uri.XCP-ng.patch
 - *** Upstream changelog ***
-- * Tue Jul 28 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.72.0-1
-- - upstream: patch rpclib to support python3, and start using it
-- - upstream: patch uri packages to parse ipv6 addresses correctly
-- - maintenance: Fix issues spotted by the opam linter
-- * Mon Jul 17 2023 Edwin Török <edwin.torok@cloud.com> - 6.71.0-2
-- - Bump release and rebuild
-- * Tue Jul 11 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.71.0-1
-- - xs: update xapi-rrd to 1.9.2 (memory leak fix)
-- - xs: add goblint for static analysis of C stubs
-- * Mon Jul 10 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-2
-- - Remove build dependencies, they are opam's normal dependencies
-- * Wed Jun 07 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-1
-- - xs: update xapi-stdext packages
-- - upstream: remove unused dependencies, do not depend on xen
-- - xs-extra: update metadata from upstream
-- - vhd-format: move from upstream to xs-extra
-- * Tue Jun 06 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-2
-- - Bump release and rebuild
-- * Fri May 05 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-1
-- - ocaml: Use correct file contents in ocaml-system.4.14.1
-- - upstream: Remove old ocamlformat and odoc-parser
-- * Mon Apr 24 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.68.0-1
-- - xs: do not package ezxenstore, it's a part of xen-api
-- - ocaml: add 4.14
-- * Wed Mar 22 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.67.0-1
-- - xs: xenctrl.dummy: do not rsync Xen packages we do not use
-- - Make xs-opam self-consistent and able to run unit tests
-- - upstream: enforce only known licenses
-- - upstream: update dune packages to 3.7.0
-- * Fri Jul 07 2023 Benjamin Reis <benjamin.reis@vates.fr> - 6.66.0-1.2
-- - Patch `ocaml-uri` for IPv6 URI parsing
+  * Fri Jul 28 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.72.0-1
+  - upstream: patch rpclib to support python3, and start using it
+  - upstream: patch uri packages to parse ipv6 addresses correctly
+  - maintenance: Fix issues spotted by the opam linter
+
+  * Mon Jul 17 2023 Edwin Török <edwin.torok@cloud.com> - 6.71.0-2
+  - Bump release and rebuild
+
+  * Tue Jul 11 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.71.0-1
+  - xs: update xapi-rrd to 1.9.2 (memory leak fix)
+  - xs: add goblint for static analysis of C stubs
+
+  * Mon Jul 10 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-2
+  - Remove build dependencies, they are opam's normal dependencies
+
+  * Wed Jun 07 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.70.0-1
+  - xs: update xapi-stdext packages
+  - upstream: remove unused dependencies, do not depend on xen
+  - xs-extra: update metadata from upstream
+  - vhd-format: move from upstream to xs-extra
+
+  * Tue Jun 06 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-2
+  - Bump release and rebuild
+
+  * Fri May 05 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.69.0-1
+  - ocaml: Use correct file contents in ocaml-system.4.14.1
+  - upstream: Remove old ocamlformat and odoc-parser
+
+  * Mon Apr 24 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.68.0-1
+  - xs: do not package ezxenstore, it's a part of xen-api
+  - ocaml: add 4.14
+
+  * Wed Mar 22 2023 Pau Ruiz Safont <pau.ruizsafont@cloud.com> - 6.67.0-1
+  - xs: xenctrl.dummy: do not rsync Xen packages we do not use
+  - Make xs-opam self-consistent and able to run unit tests
+  - upstream: enforce only known licenses
+  - upstream: update dune packages to 3.7.0
+
+* Fri Jul 07 2023 Benjamin Reis <benjamin.reis@vates.fr> - 6.66.0-1.2
+- Patch `ocaml-uri` for IPv6 URI parsing
 
 * Thu Mar 16 2023 Samuel Verschelde <stormi-xcp@ylix.fr> - 6.66.0-1.1
 - Remove dlm, which is only required by proprietary xapi-clusterd
