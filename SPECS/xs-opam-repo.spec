@@ -18,7 +18,7 @@
 
 Name: xs-opam-repo
 Version: %{_version}
-Release: %{?xsrel}.1.qcow.1%{?dist}
+Release: %{?xsrel}.0.qcow2.1%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
