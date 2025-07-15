@@ -1,0 +1,53 @@
+From 1a3a6aa21736044801eb2d3775522393abb9cb42 Mon Sep 17 00:00:00 2001
+From: Andrii Sultanov <andriy.sultanov@vates.tech>
+Date: Thu, 1 May 2025 13:21:32 +0100
+Subject: [PATCH] packages: Add asetmap 0.8.1
+
+Signed-off-by: Andrii Sultanov <andriy.sultanov@vates.tech>
+---
+ packages/asetmap/asetmap.0.8.1/opam | 35 +++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+ create mode 100644 packages/asetmap/asetmap.0.8.1/opam
+
+diff --git a/packages/asetmap/asetmap.0.8.1/opam b/packages/asetmap/asetmap.0.8.1/opam
+new file mode 100644
+index 00000000..46c693d0
+--- /dev/null
++++ b/packages/asetmap/asetmap.0.8.1/opam
+@@ -0,0 +1,35 @@
++opam-version: "2.0"
++maintainer: "Daniel Bünzli <daniel.buenzl i@erratique.ch>"
++authors: ["Daniel Bünzli <daniel.buenzl i@erratique.ch>"]
++homepage: "http://erratique.ch/software/asetmap"
++doc: "http://erratique.ch/software/asetmap/doc"
++license: "ISC"
++dev-repo: "git+http://erratique.ch/repos/asetmap.git"
++bug-reports: "https://github.com/dbuenzli/asetmap/issues"
++tags: [ "org:erratique" "set" "map" "stdlib" ]
++depends: [
++  "ocaml" {>= "4.01.0"}
++  "ocamlfind" {build}
++  "ocamlbuild" {build}
++  "topkg" {build}
++]
++build: [
++  "ocaml" "pkg/pkg.ml" "build"
++          "--pinned" "%{pinned}%" ]
++synopsis: "Alternative, compatible, OCaml standard library Sets and Maps"
++description: """
++asetmap provides slightly tweaked OCaml standard library Set and Map
++functors. asetmap tries to maximize compatibility with the standard
++library. It essentially gets rid of `Not_found` exceptions and provide
++pretty-printers for the data types.
++
++asetmap has no dependency is distributed under the ISC license."""
++url {
++  src: "http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz"
++  checksum: [
++    "sha256=43211c54671e3c55e73e8ac5e1fb54e168d5c2875c356eb77efc98906c1f53fe"
++    "md5=9e4a518bfb6350e2f296c7f3147989c7"
++  ]
++}
++
++x-maintenance-intent: ["(latest)"]
+\ No newline at end of file

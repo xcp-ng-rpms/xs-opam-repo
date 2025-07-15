@@ -1,0 +1,300 @@
+From 0e164aa27ae9c03829c57ca18f40b9a56cc9bd39 Mon Sep 17 00:00:00 2001
+From: Andrii Sultanov <andriy.sultanov@vates.tech>
+Date: Tue, 15 Jul 2025 09:27:22 +0100
+Subject: [PATCH] packages: Add qcow-tool as xapi's dependency
+
+Add qcow-tool's dependencies: qcow, mirage-sleep,
+mirage-block-combinators, unix-type-representations
+
+Signed-off-by: Andrii Sultanov <andriy.sultanov@vates.tech>
+---
+ .../mirage-block-combinators.3.0.2/opam       | 36 +++++++++++
+ packages/mirage-sleep/mirage-sleep.4.0.0/opam | 44 +++++++++++++
+ packages/qcow-tool/qcow-tool.0.12.1/opam      | 58 +++++++++++++++++
+ packages/qcow/qcow.0.12.1/opam                | 63 +++++++++++++++++++
+ .../unix-type-representations.0.1.2/opam      | 33 ++++++++++
+ packages/xapi/xapi.master/opam                |  2 +-
+ 6 files changed, 235 insertions(+), 1 deletion(-)
+ create mode 100644 packages/mirage-block-combinators/mirage-block-combinators.3.0.2/opam
+ create mode 100644 packages/mirage-sleep/mirage-sleep.4.0.0/opam
+ create mode 100644 packages/qcow-tool/qcow-tool.0.12.1/opam
+ create mode 100644 packages/qcow/qcow.0.12.1/opam
+ create mode 100644 packages/unix-type-representations/unix-type-representations.0.1.2/opam
+
+diff --git a/packages/mirage-block-combinators/mirage-block-combinators.3.0.2/opam b/packages/mirage-block-combinators/mirage-block-combinators.3.0.2/opam
+new file mode 100644
+index 00000000..1bcd713f
+--- /dev/null
++++ b/packages/mirage-block-combinators/mirage-block-combinators.3.0.2/opam
+@@ -0,0 +1,36 @@
++opam-version: "2.0"
++maintainer: "dave@recoil.org"
++authors: "David Scott"
++license: "ISC"
++tags: "org:mirage"
++homepage: "https://github.com/mirage/mirage-block"
++doc: "https://mirage.github.io/mirage-block/"
++bug-reports: "https://github.com/mirage/mirage-block/issues"
++depends: [
++  "ocaml" {>= "4.06.0"}
++  "dune" {>= "1.0"}
++  "cstruct" {>= "6.0.0"}
++  "lwt" {>= "4.0.0"}
++  "logs"
++  "mirage-block" {=version}
++]
++build: [
++  ["dune" "subst"] {dev}
++  ["dune" "build" "-p" name "-j" jobs]
++]
++dev-repo: "git+https://github.com/mirage/mirage-block.git"
++synopsis: "Block signatures and implementations for MirageOS using Lwt"
++description: """
++This repo contains generic operations over Mirage `BLOCK` devices.
++This package is specialised to the Lwt concurrency library for IO.
++"""
++url {
++  src:
++    "https://github.com/mirage/mirage-block/releases/download/v3.0.2/mirage-block-3.0.2.tbz"
++  checksum: [
++    "sha256=5002d47de2f41b599f4ac2e001bfc7a50e8e575d98b58f8650e606eb2854c002"
++    "sha512=5b36b4b8a886f62f87950cae355d14c0ecc8f70f1be1287d5da0b413f7a78020b11e9771cb16ffbbbb5654f6f902c91436cfbbd4a3cc2d9ba9883c0c579d156f"
++  ]
++}
++x-commit-hash: "20e3794e5452b8d37b951cf60ec907e8d96507c7"
++x-maintenance-intent: [ "(latest)" ]
+diff --git a/packages/mirage-sleep/mirage-sleep.4.0.0/opam b/packages/mirage-sleep/mirage-sleep.4.0.0/opam
+new file mode 100644
+index 00000000..f88b0e03
+--- /dev/null
++++ b/packages/mirage-sleep/mirage-sleep.4.0.0/opam
+@@ -0,0 +1,44 @@
++opam-version: "2.0"
++maintainer: "hannes@mehnert.org"
++authors: [
++  "Thomas Gazagnaire"
++  "Anil Madhavapeddy"
++  "Gabriel Radanne"
++  "Mindy Preston"
++  "Thomas Leonard"
++  "Nicolas Ojeda Bar"
++  "Dave Scott"
++  "David Kaloper"
++  "Hannes Mehnert"
++  "Richard Mortier"
++]
++license: "ISC"
++tags: "org:mirage"
++homepage: "https://github.com/mirage/mirage-sleep"
++doc: "https://mirage.github.io/mirage-sleep/"
++bug-reports: "https://github.com/mirage/mirage-sleep/issues"
++depends: [
++  "ocaml" {>= "4.08.0"}
++  "dune" {>= "2.6"}
++  "lwt" {>= "4.0.0"}
++  "duration"
++]
++build: [
++  ["dune" "subst"] {dev}
++  ["dune" "build" "-p" name "-j" jobs]
++]
++dev-repo: "git+https://github.com/mirage/mirage-sleep.git"
++synopsis: "Sleep operation for MirageOS"
++description: """
++Mirage_sleep defines the single function `ns`.
++"""
++x-maintenance-intent: [ "(latest)" ]
++url {
++  src:
++    "https://github.com/mirage/mirage-sleep/releases/download/v4.0.0/mirage-sleep-4.0.0.tbz"
++  checksum: [
++    "sha256=27b730eec137104dc122149dc03d4a57755e5e312abe2566cacdcb80684413f0"
++    "sha512=72847ce2a105ea619ffc2a0b60c6443249caadaee9435ab48e71e7ee19f15376217514cc8c13850964ed80cf518b0449d5da663217633d4bf4185cd0f04c3521"
++  ]
++}
++x-commit-hash: "b1d897b32fe70c01dd60865bd7791aea6109a5a8"
+diff --git a/packages/qcow-tool/qcow-tool.0.12.1/opam b/packages/qcow-tool/qcow-tool.0.12.1/opam
+new file mode 100644
+index 00000000..58790663
+--- /dev/null
++++ b/packages/qcow-tool/qcow-tool.0.12.1/opam
+@@ -0,0 +1,58 @@
++opam-version: "2.0"
++synopsis: "A command-line tool for manipulating qcow2-formatted data"
++maintainer: [
++  "Dave Scott <dave@recoil.org>" "Pau Ruiz Safont" "Edwin Török "
++]
++authors: ["David Scott"]
++license: "ISC"
++tags: ["org:mirage"]
++homepage: "https://github.com/mirage/ocaml-qcow"
++bug-reports: "https://github.com/mirage/ocaml-qcow/issues"
++depends: [
++  "dune" {>= "3.18"}
++  "ocaml" {>= "4.12.0"}
++  "qcow" {= version}
++  "qcow-stream" {= version}
++  "conf-qemu-img" {with-test}
++  "cmdliner" {>= "1.1.0"}
++  "cstruct"
++  "result"
++  "unix-type-representations"
++  "lwt"
++  "mirage-block" {>= "3.0.0"}
++  "sha" {>= "1.10"}
++  "sexplib"
++  "logs"
++  "fmt" {>= "0.8.2"}
++  "astring"
++  "io-page" {>= "2.4.0"}
++  "ounit" {with-test}
++  "mirage-block-ramdisk" {with-test}
++  "ezjsonm" {with-test}
++  "odoc" {with-doc}
++]
++build: [
++  ["dune" "subst"] {dev}
++  [
++    "dune"
++    "build"
++    "-p"
++    name
++    "-j"
++    jobs
++    "@install"
++    "@runtest" {with-test}
++    "@doc" {with-doc}
++  ]
++]
++dev-repo: "git+https://github.com/mirage/ocaml-qcow.git"
++x-maintenance-intent: ["latest"]
++url {
++  src:
++    "https://github.com/mirage/ocaml-qcow/releases/download/0.12.1/qcow-0.12.1.tbz"
++  checksum: [
++    "sha256=c799f3c2eda00b345d37ccd759bcd7b8be8744216b77a38883ff4cd99727ae37"
++    "sha512=2160598f460240f9580991e7f7d69e3ef83a2e6ec62268b711840d359cd303d4e14a5d65d89ceb82a6f77b434d06a01af9daa7780808a885f3307909c11dcfd8"
++  ]
++}
++x-commit-hash: "e9f228b3626aef9275c43f539bb9959d8d167314"
+diff --git a/packages/qcow/qcow.0.12.1/opam b/packages/qcow/qcow.0.12.1/opam
+new file mode 100644
+index 00000000..c96ad745
+--- /dev/null
++++ b/packages/qcow/qcow.0.12.1/opam
+@@ -0,0 +1,63 @@
++opam-version: "2.0"
++synopsis: "Support for Qcow2 images"
++maintainer: [
++  "Dave Scott <dave@recoil.org>" "Pau Ruiz Safont" "Edwin Török "
++]
++authors: ["David Scott"]
++license: "ISC"
++tags: ["org:mirage"]
++homepage: "https://github.com/mirage/ocaml-qcow"
++bug-reports: "https://github.com/mirage/ocaml-qcow/issues"
++depends: [
++  "dune" {>= "3.18"}
++  "ocaml" {>= "4.12.0"}
++  "qcow-types" {= version}
++  "base-bytes"
++  "cstruct" {>= "3.4.0"}
++  "result"
++  "io-page" {>= "2.4.0"}
++  "lwt" {>= "5.5.0"}
++  "mirage-block" {>= "3.0.0"}
++  "mirage-block-unix" {>= "2.5.0"}
++  "mirage-block-combinators"
++  "mirage-sleep"
++  "sexplib"
++  "logs"
++  "fmt" {>= "0.8.2"}
++  "astring"
++  "prometheus"
++  "unix-type-representations"
++  "stdlib-shims"
++  "sha"
++  "ppx_deriving"
++  "ppx_sexp_conv"
++  "ounit" {with-test}
++  "mirage-block-ramdisk" {with-test & >= "0.5"}
++  "ezjsonm" {with-test}
++  "odoc" {with-doc}
++]
++build: [
++  ["dune" "subst"] {dev}
++  [
++    "dune"
++    "build"
++    "-p"
++    name
++    "-j"
++    jobs
++    "@install"
++    "@runtest" {with-test}
++    "@doc" {with-doc}
++  ]
++]
++dev-repo: "git+https://github.com/mirage/ocaml-qcow.git"
++x-maintenance-intent: ["latest"]
++url {
++  src:
++    "https://github.com/mirage/ocaml-qcow/releases/download/0.12.1/qcow-0.12.1.tbz"
++  checksum: [
++    "sha256=c799f3c2eda00b345d37ccd759bcd7b8be8744216b77a38883ff4cd99727ae37"
++    "sha512=2160598f460240f9580991e7f7d69e3ef83a2e6ec62268b711840d359cd303d4e14a5d65d89ceb82a6f77b434d06a01af9daa7780808a885f3307909c11dcfd8"
++  ]
++}
++x-commit-hash: "e9f228b3626aef9275c43f539bb9959d8d167314"
+diff --git a/packages/unix-type-representations/unix-type-representations.0.1.2/opam b/packages/unix-type-representations/unix-type-representations.0.1.2/opam
+new file mode 100644
+index 00000000..b78044cd
+--- /dev/null
++++ b/packages/unix-type-representations/unix-type-representations.0.1.2/opam
+@@ -0,0 +1,33 @@
++opam-version: "2.0"
++maintainer: "Jeremy Yallop <yallop@gmail.com>"
++authors: "Jeremy Yallop <yallop@gmail.com>"
++license: "MIT"
++homepage: "https://github.com/yallop/ocaml-unix-type-representations"
++bug-reports: "https://github.com/yallop/ocaml-unix-type-representations/issues"
++dev-repo: "git+https://github.com/yallop/ocaml-unix-type-representations.git"
++build: [
++  ["ocaml" "pkg/pkg.ml" "build" "--dev-pkg" "%{dev}%"]
++  ["ocaml" "pkg/pkg.ml" "build" "--dev-pkg" "%{dev}%" "--tests" "true"]
++    {with-test}
++  ["ocaml" "pkg/pkg.ml" "test"] {with-test}
++]
++depends: [
++  "ocaml" {< "5.0.0"}
++  "topkg" {build & >= "0.9.0"}
++  "ocamlfind" {build}
++  "ocamlbuild" {build & != "0.9.0"}
++  "base-unix"
++  "ctypes" {with-test}
++  "ounit" {with-test}
++]
++synopsis:
++  "Functions that expose the underlying types of some abstract types in the Unix module"
++url {
++  src:
++    "https://github.com/yallop/ocaml-unix-type-representations/archive/0.1.2.tar.gz"
++  checksum: [
++    "sha256=7906cab0391ff4fbf9c153397d965fd890cabc0c2accde965eb23159a24d91f7"
++    "md5=a30eeca91ac42a951ac9914e3f05291f"
++  ]
++}
++available: os-family != "alpine"
+diff --git a/packages/xapi/xapi.master/opam b/packages/xapi/xapi.master/opam
+index e911fd61..05ca86d9 100644
+--- a/packages/xapi/xapi.master/opam
++++ b/packages/xapi/xapi.master/opam
+@@ -50,7 +50,7 @@ depends: [
+   "ppx_deriving"
+   "psq"
+   "ptime"
+-  "qcow-stream"
++  "qcow-tool"
+   "qcheck-alcotest"
+   "qcheck-core"
+   "re"

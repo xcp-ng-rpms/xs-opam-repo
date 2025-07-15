@@ -1,0 +1,60 @@
+From 6a85e84453bdf9a5bc131c164876601c8ad34bd8 Mon Sep 17 00:00:00 2001
+From: Andrii Sultanov <andriy.sultanov@vates.tech>
+Date: Thu, 22 May 2025 09:44:16 +0100
+Subject: [PATCH] packages: add qcow-stream
+
+Signed-off-by: Andrii Sultanov <andriy.sultanov@vates.tech>
+---
+ packages/qcow-stream/qcow-stream.0.12.1/opam | 43 ++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 packages/qcow-stream/qcow-stream.0.12.1/opam
+
+diff --git a/packages/qcow-stream/qcow-stream.0.12.1/opam b/packages/qcow-stream/qcow-stream.0.12.1/opam
+new file mode 100644
+index 00000000..241e431c
+--- /dev/null
++++ b/packages/qcow-stream/qcow-stream.0.12.1/opam
+@@ -0,0 +1,43 @@
++opam-version: "2.0"
++synopsis: "Library offering QCOW streaming capabilities"
++maintainer: [
++  "Dave Scott <dave@recoil.org>" "Pau Ruiz Safont" "Edwin Török "
++]
++authors: ["David Scott"]
++license: "ISC"
++tags: ["org:mirage"]
++homepage: "https://github.com/mirage/ocaml-qcow"
++bug-reports: "https://github.com/mirage/ocaml-qcow/issues"
++depends: [
++  "dune" {>= "3.18"}
++  "qcow-types" {= version}
++  "cstruct-lwt"
++  "io-page"
++  "lwt" {>= "5.5.0"}
++  "odoc" {with-doc}
++]
++build: [
++  ["dune" "subst"] {dev}
++  [
++    "dune"
++    "build"
++    "-p"
++    name
++    "-j"
++    jobs
++    "@install"
++    "@runtest" {with-test}
++    "@doc" {with-doc}
++  ]
++]
++dev-repo: "git+https://github.com/mirage/ocaml-qcow.git"
++x-maintenance-intent: ["latest"]
++url {
++  src:
++    "https://github.com/mirage/ocaml-qcow/releases/download/0.12.1/qcow-0.12.1.tbz"
++  checksum: [
++    "sha256=c799f3c2eda00b345d37ccd759bcd7b8be8744216b77a38883ff4cd99727ae37"
++    "sha512=2160598f460240f9580991e7f7d69e3ef83a2e6ec62268b711840d359cd303d4e14a5d65d89ceb82a6f77b434d06a01af9daa7780808a885f3307909c11dcfd8"
++  ]
++}
++x-commit-hash: "e9f228b3626aef9275c43f539bb9959d8d167314"

@@ -1,0 +1,22 @@
+From f7e8a12d16b3b29074fcbc01a57fb5adba17e0c4 Mon Sep 17 00:00:00 2001
+From: Andrii Sultanov <andriy.sultanov@vates.tech>
+Date: Thu, 22 May 2025 09:44:29 +0100
+Subject: [PATCH] packages: add xapi dependency on qcow-stream
+
+Signed-off-by: Andrii Sultanov <andriy.sultanov@vates.tech>
+---
+ packages/xapi/xapi.master/opam | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/packages/xapi/xapi.master/opam b/packages/xapi/xapi.master/opam
+index 1d1dee8b..e911fd61 100644
+--- a/packages/xapi/xapi.master/opam
++++ b/packages/xapi/xapi.master/opam
+@@ -50,6 +50,7 @@ depends: [
+   "ppx_deriving"
+   "psq"
+   "ptime"
++  "qcow-stream"
+   "qcheck-alcotest"
+   "qcheck-core"
+   "re"

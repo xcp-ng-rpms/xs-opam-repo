@@ -18,7 +18,7 @@
 
 Name: xs-opam-repo
 Version: %{_version}
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.1.qcow.2%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -34,6 +34,13 @@ Source0: xs-opam-repo-6.87.0.tar.gz
 # Note that Jenkins will likely not pick up commits on this repo, and you have to hit 'Build Now'
 # when you want a new build.
 # Source1: https://code.citrite.net/rest/archive/latest/projects/~YOURUSER/repos/ezxenstore/archive?at=master&format=tar.gz&prefix=ezxenstore#/ezxenstore.tar.gz
+
+Patch1001: 0001-packages-add-prometheus-1.2.patch
+Patch1002: 0002-packages-Add-asetmap-0.8.1.patch
+Patch1003: 0003-packages-add-qcow-types.patch
+Patch1004: 0004-packages-add-qcow-stream.patch
+Patch1005: 0005-packages-add-xapi-dependency-on-qcow-stream.patch
+Patch1006: 0006-packages-Add-qcow-tool-as-xapi-s-dependency.patch
 
 BuildRequires: xs-opam-src >= 5.1.0
 
