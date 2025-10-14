@@ -75,8 +75,11 @@ Toolstack components of the Citrix Hypervisor.
 %autosetup -p1 -n xs-opam-repo-%{_version_full}
 # XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
 rm -r packages/dlm/dlm.*
+%ifarch aarch64
 mkdir -p packages/host-arch-arm64/host-arch-arm64.1
 cp %{SOURCE1} packages/host-arch-arm64/host-arch-arm64.1/opam
+rm -r packages/host-arch-x86_64
+%endif
 
 %build
 
