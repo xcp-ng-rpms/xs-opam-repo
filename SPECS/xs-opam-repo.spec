@@ -26,6 +26,7 @@ Summary: Build and install OCaml libraries from Opam repository
 License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and GPL-3.0-or-later and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0 and Unlicense
 URL:     https://github.com/xapi-project/xs-opam
 Source0: xs-opam-repo-6.92.0.tar.gz
+Source1: host-arch-arm64.1.opam
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -74,6 +75,8 @@ Toolstack components of the Citrix Hypervisor.
 %autosetup -p1 -n xs-opam-repo-%{_version_full}
 # XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
 rm -r packages/dlm/dlm.*
+mkdir -p packages/host-arch-arm64/host-arch-arm64.1
+cp %{SOURCE1} packages/host-arch-arm64/host-arch-arm64.1/opam
 
 %build
 
@@ -127,6 +130,8 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %changelog
 * Tue Oct 14 2025 Yann Dirson <yann.dirson@vates.tech> - 6.92.0-0.ydi.1
 - Update to new upstream
+- Hack in the definition for host-arch-arm64, from
+  https://github.com/ocaml/opam-repository/blob/master/packages/host-arch-arm64/host-arch-arm64.1/opam
 
 * Wed Aug 06 2025 Andrii Sultanov <andriy-sultanov@vates.tech> - 6.91.0-1.1
 - Update to 6.91.0-1
