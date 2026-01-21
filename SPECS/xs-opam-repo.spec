@@ -10,7 +10,7 @@
 # However, something needs to be fixed on XS 9 to not need it anymore.
 %global _debugsource_template %{nil}
 
-%global _version 6.96.0
+%global _version 6.97.0
 
 # When building an untagged version, add the number of commits and hash after
 # the variable _version. e.g. -34-gab48a58c for 6.77.0-34-gab48a58c
@@ -25,7 +25,7 @@ Summary: Build and install OCaml libraries from Opam repository
 # keep these in sync.
 License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-2.0-or-later and GPL-3.0-only and GPL-3.0-or-later and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0 and Unlicense
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.96.0-xcp-0.tar.gz
+Source0: xs-opam-repo-6.97.0-xcp-0.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -132,6 +132,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Wed Nov 21 2025 Andrii Sultanov <andriy.sultanov@vates.tech> - 6.97.0-1.1
+- Update ocaml-qcow to 0.12.2
+
 * Wed Nov 19 2025 Pau Ruiz Safont <pau.safont@vates.tech> - 6.96.0-1.1
 - *** Upstream changelog ***
   * Fri Oct 03 2025 Rob Hoes <rob.hoes@cloud.com> - 6.96.0-1
