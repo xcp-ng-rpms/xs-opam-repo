@@ -18,7 +18,7 @@
 
 Name: xs-opam-repo
 Version: %{_version}
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.2%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -133,6 +133,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Feb 20 2026 Philippe Coval <philippe.coval@vates.tech> - 6.99.0-1.2
+- Rebuild with openssl-3
+
 * Wed Feb 18 2026 Pau Ruiz Safont <pau.safont@vates.tech> - 6.99.0-1.1
  - *** Upstream changelog ***
  * Tue Jan 13 2026 Rob Hoes <rob.hoes@cloud.com> - 6.99.0-1
