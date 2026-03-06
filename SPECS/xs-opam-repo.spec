@@ -18,7 +18,7 @@
 
 Name: xs-opam-repo
 Version: %{_version}
-Release: %{?xsrel}.2%{?dist}
+Release: %{?xsrel}.3%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
@@ -133,6 +133,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Mar 6 2026 Andrii Sultanov <andriy-sultanov@vates.tech> - 6.99.0-1.3
+- Update ocaml-qcow to 0.13.0
+
 * Fri Feb 20 2026 Philippe Coval <philippe.coval@vates.tech> - 6.99.0-1.2
 - Rebuild with openssl-3
 
