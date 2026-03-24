@@ -18,14 +18,14 @@
 
 Name: xs-opam-repo
 Version: %{_version}
-Release: %{?xsrel}.3%{?dist}
+Release: %{?xsrel}.4%{?dist}
 Summary: Build and install OCaml libraries from Opam repository
 # The license field is produced by running print-license.sh
 # Please update licenses.txt on every new version and then run the script to
 # keep these in sync.
 License: Apache-1.0 and Apache-2.0 and BSD-2-Clause and BSD-3-Clause and curl and GPL-1.0-or-later and GPL-2.0-only and GPL-3.0-or-later and ISC and LGPL-2.0-only WITH OCaml-LGPL-linking-exception and LGPL-2.0-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-only and LGPL-2.1-only WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception and LGPL-2.1-or-later WITH OpenSSL-linking-exception and LGPL-3.0-only and MIT and PSF-2.0
 URL:     https://github.com/xapi-project/xs-opam
-Source0: xs-opam-repo-6.99.0-xcp-0.tar.gz
+Source0: xs-opam-repo-6.99.0-xcp-2.tar.gz
 # To "pin" a package during development, see below the example
 # where ezxenstore is pinned to an internal master branch.
 # You need the Source1 line, and the below 'tar' and 'opam pin' lines, and comment-out the OPAMFETCH
@@ -74,7 +74,7 @@ Opam repository that contains all libraries necessary to compile the
 Toolstack components of the Citrix Hypervisor.
 
 %prep
-%autosetup -p1 -n xs-opam-repo-%{_version_full}-xcp-0
+%autosetup -p1 -n xs-opam-repo-%{_version_full}-xcp-2
 # XCP-ng: remove dlm, which is only required by proprietary xapi-clusterd
 rm -r packages/dlm/dlm.*
 
@@ -133,6 +133,9 @@ echo '%%_opamroot %%{_libdir}/opamroot' >> "%{buildroot}%{_rpmconfigdir}/macros.
 %{_opamroot}
 
 %changelog
+* Fri Mar 6 2026 Andrii Sultanov <andriy-sultanov@vates.tech> - 6.99.0-1.4
+- Update ocaml-qcow to include the snapshot fix
+
 * Fri Mar 6 2026 Andrii Sultanov <andriy-sultanov@vates.tech> - 6.99.0-1.3
 - Update ocaml-qcow to 0.13.0
 
